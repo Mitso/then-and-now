@@ -1,7 +1,7 @@
 import Vue from 'vue'
 import Router from 'vue-router'
 
-import App from '../pages/main'
+import App from '../pages/default'
 import AboutUs from '../pages/about-us'
 import Signup from '../pages/signup'
 import Profile from '../pages/user'
@@ -21,7 +21,7 @@ export function createRouter() {
                 component: AboutUs
             },
             {
-                path: '/sign-up',
+                path: '/signup',
                 component: Signup
             },
             {

@@ -1,5 +1,5 @@
 <template>
-    <div class="wrapper">
+    <main class="wrapper">
         <canvas ref="canvas" id="canvas"></canvas>
         <div ref="bgCanvas" class="bg-canvas"></div>
         <section ref="section-one" class="content-one">
@@ -60,97 +60,69 @@
                 </div>
             </div>
         </section>
-    </div>
+    </main>
 </template>
 
 <script>
-import backgroundImage from '../assets/img/khoisan-artist.jpg'
-import iconscripts from '../utils/icons'
+    import backgroundImage from '../assets/img/khoisan-artist.jpg'
+    import iconscripts from '../utils/icons'
 
-const formatString = 'data:image/svg+xml;utf8, ',
-    yellow = 'rgb(233,161,0)'
+    const formatString = 'data:image/svg+xml;utf8, ',
+        yellow = 'rgb(233,161,0)'
 
-export default {
-    name: 'Home',
-    data () {
-        return {
-            canvasId: null,
-            cardanoIcon: null,
-            publicGoodsIcon: null
-        }
-    },
-    mounted() {
-        const ctx = this.$refs['canvas'].getContext('2d')
-        if (typeof window.innerWidth != 'undefined') {
-            this.$refs['canvas'].width = window.innerWidth
-            this.$refs['canvas'].height = window.innerHeight
-
-            this.$refs['bgCanvas'].style.width = window.innerWidth + 'px'
-            this.$refs['bgCanvas'].style.height = window.innerHeight + 'px'
-
-            this.$refs['section-one'].style.height = window.innerHeight + 'px'
-            this.$refs['section-two'].style.height = window.innerHeight + 'px'
-        }
-
-        const bgImage = new Image()
-            bgImage.src = backgroundImage
-            bgImage.alt = 'The story of our people'
-
-        bgImage.addEventListener('load', function() {
-            ctx.drawImage(bgImage, 0, 0,window.innerWidth, window.innerHeight)
-        })
-    },
-    methods: {
-        getCardanoIcon (e) {
-            this.cardanoIcon = formatString + iconscripts(e).cardano
-            return this.cardanoIcon
+    export default {
+        name: 'Default',
+        data () {
+            return {
+                canvasId: null,
+                cardanoIcon: null,
+                publicGoodsIcon: null
+            }
         },
-        getPublicGoodsIcon (e) {
-            this.publicGoodsIcon = formatString + iconscripts(e).publicGoods
-            return this.publicGoodsIcon
+        mounted() {
+            const ctx = this.$refs['canvas'].getContext('2d')
+            if (typeof window.innerWidth != 'undefined') {
+                this.$refs['canvas'].width = window.innerWidth
+                this.$refs['canvas'].height = window.innerHeight
+
+                this.$refs['bgCanvas'].style.width = window.innerWidth + 'px'
+                this.$refs['bgCanvas'].style.height = window.innerHeight + 'px'
+
+                this.$refs['section-one'].style.height = window.innerHeight + 'px'
+                this.$refs['section-two'].style.height = window.innerHeight + 'px'
+            }
+
+            const bgImage = new Image()
+                bgImage.src = backgroundImage
+                bgImage.alt = 'The story of our people'
+
+            bgImage.addEventListener('load', function() {
+                ctx.drawImage(bgImage, 0, 0,window.innerWidth, window.innerHeight)
+            })
+        },
+        methods: {
+            getCardanoIcon (e) {
+                this.cardanoIcon = formatString + iconscripts(e).cardano
+                return this.cardanoIcon
+            },
+            getPublicGoodsIcon (e) {
+                this.publicGoodsIcon = formatString + iconscripts(e).publicGoods
+                return this.publicGoodsIcon
+            }
         }
     }
-}
 </script>
 
 
-<style>
-    @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400&display=swap');
-    @import url('https://fonts.googleapis.com/css2?family=Prompt:wght@500&display=swap');
-    @import url('https://fonts.googleapis.com/css2?family=Exo:ital,wght@0,100;0,200;0,400;1,400;500;700&display=swap');
-    html, body {
-        margin: 0;
-    }
-
-    body {
-        font-family: 'Exo', Arial, Helvetica, sans-serif;
-        font-size: 16px;
-    }
-
-    h1, h2, h3, h4, h5, h6 {
-        margin: 0;
-    }
-
-    ul, ol, li {
-        margin: 0;
-        padding: 0;
-    }
-
-    header {
-        padding: 10px 0 30px;
-    }
-
-
+<style lang="scss">
+    @import '../assets/styles/variables';
     .logo {
         font-family: 'Prompt', sans-serif;
-        color: #e9a100;
+        color: $orange;
         font-size: 42px;
-    }
-    .content-two .logo {
-        color: #000000
-    }
-    .logo__small {
-        font-size: 55px;
+        &__small {
+            font-size: 55px;
+        }
     }
 
     .logoSecondary {
@@ -158,74 +130,42 @@ export default {
         font-size: 22px;
         display: inline-block;
         text-transform: none;
-    }
-     .logoSecondary__small {
-        font-size: 34px;
-    }
-
-
-</style>
-
-<style scoped>
-    .heading--primary {
-        font-size: 25px;
+        &__small {
+            font-size: 34px;
+        }
     }
 
-    .heading--secondary {
-        color: #e9d257;
-        font-size: 20px;
-        text-transform: capitalize;
-    }
-    .content-one .heading--secondary {
-        color: #e9d257;
-    }
-    .content-two .heading--secondary {
-        color: #000000;
-    }
-
-    .paragraph {
-        text-align: justify;
-    }
     .column {
         align-items: flex-start;
         display: flex;
         padding: 10% 15px 10px;
         justify-content: left;
         text-align: left;
-    }
-    .column__item {
-        align-items: flex-start;
-        display: flex;
-        justify-content: center;
-        margin: 0 50px 0 0;
-    }
-     .content-one .column__item {
-        width: 50%;
-    }
-    .column__thumbnail {
-        aspect-ratio: 16 / 9;
-        height: 90px;
-        width: 160px;
-    }
-    .content-one .column__thumbnail {
-        fill: #e9d257;
-        margin-top: 11%;
-    }
-    .content-two .column__thumbnail {
-        fill: #000000;
-    }
-    .column__excerpt {
-        overflow: auto;
+        &__item {
+            align-items: flex-start;
+            display: flex;
+            justify-content: center;
+            margin: 0 50px 0 0;
+        }
+        &__thumbnail {
+            aspect-ratio: 16 / 9;
+            height: 90px;
+            width: 160px;
+        }
+        &__excerpt {
+            overflow: auto;
+        }
     }
 
-    canvas {
+
+    #canvas {
         position: absolute;
         top: 0;
         left: 0;
         z-index: 1;
     }
     .bg-canvas {
-        background-color: rgba(0,0,0,0.8);
+        background-color: rgba($black,0.8);
         height: 100%;
         width: 100%;
         position: absolute;
@@ -242,18 +182,39 @@ export default {
         position: relative;
         justify-content: center;
         height: 100%;
-        margin: 10px auto;
+        margin: 0 auto;
         padding: 0 15%;
         text-align: center;
         z-index: 3;
     }
-
-    .content-one {
-        color: #fff;
+    .content {
+        &-one {
+            color: $white;
+            .heading--secondary {
+                color: $soft-yellow;
+            }
+            .column__item {
+                width: 50%;
+            }
+            .column__thumbnail {
+                margin-top: 11%;
+            }
+        }
+        &-two {
+            color: $black;
+            background: $white;
+            .heading--secondary {
+                color: $black;
+            }
+            .logo {
+                color: $black;
+            }
+        }
     }
-    .content-two {
-        color: #000;
-        background: #fff;
+    .wrapper {
+        .paragraph {
+            text-align: justify;
+        }
     }
 
 </style>

@@ -1,5 +1,5 @@
 <template>
-    <header>
+    <header class="header">
         <ul class="nav-list">
             <li class="nav-list__item">
                 <NuxtLink to="/" class="nav-list__anchor">Home</NuxtLink>
@@ -12,6 +12,9 @@
 </template>
 
 <style lang="css">
+    .header {
+        padding: 10px 0 30px;
+    }
     .nav-list {
         padding: 0;
         margin: 0;

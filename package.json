@@ -5,13 +5,14 @@
 		"build": "nuxt build",
 		"generate": "nuxt generate",
 		"start": "nuxt start",
-        "inspect": "nuxt webpack --dev"
+		"inspect": "nuxt webpack --dev"
 	},
 	"dependencies": {
 		"nuxt": "2.15.8"
 	},
 	"devDependencies": {
 		"@nuxtjs/router": "1.7.0",
-		"sass-loader": "10.1.1"
+		"sass": "^1.52.1",
+		"sass-loader": "^10.2.1"
 	}
 }
