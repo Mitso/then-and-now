@@ -138,11 +138,11 @@
     .column {
         align-items: flex-start;
         display: flex;
-        padding: 10% 15px 10px;
+        padding: 15px 15px 10px;
         justify-content: left;
         text-align: left;
         &__item {
-            align-items: flex-start;
+            align-items: center;
             display: flex;
             justify-content: center;
             margin: 0 50px 0 0;
@@ -183,7 +183,7 @@
         justify-content: center;
         height: 100%;
         margin: 0 auto;
-        padding: 0 15%;
+        padding: 0 8%;
         text-align: center;
         z-index: 3;
     }
@@ -197,7 +197,7 @@
                 width: 50%;
             }
             .column__thumbnail {
-                margin-top: 11%;
+                display: block;
             }
         }
         &-two {

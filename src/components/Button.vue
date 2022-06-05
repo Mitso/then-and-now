@@ -22,7 +22,7 @@
 
 <style lang="css">
     .cta {
-        margin: 100px 0 0;
+        margin: 15px 0 0;
     }
     .button {
         border: none;
