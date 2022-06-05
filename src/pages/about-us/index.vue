@@ -13,7 +13,10 @@
 <script>
     import Nav from '../../components/Nav'
     export default {
-        name: 'AboutUs'
+        name: 'AboutUs',
+        components: {
+           Nav
+        }
     }
 </script>
 

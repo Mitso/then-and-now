@@ -64,24 +64,23 @@
 </template>
 
 <script>
-    import backgroundImage from '../assets/img/khoisan-artist.jpg'
     import Nav from '../components/Nav'
+    import backgroundImage from '../assets/img/khoisan-artist.jpg'
     import iconscripts from '../utils/icons'
-
     const formatString = 'data:image/svg+xml;utf8, ',
         yellow = 'rgb(233,161,0)'
 
     export default {
         name: 'Default',
+        components: {
+           Nav
+        },
         data () {
             return {
                 canvasId: null,
                 cardanoIcon: null,
                 publicGoodsIcon: null
             }
-        },
-        components: {
-            Nav
         },
         mounted() {
             const ctx = this.$refs['canvas'].getContext('2d')

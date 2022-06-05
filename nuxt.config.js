@@ -3,9 +3,6 @@ export default {
         base: '/',
         linkActiveClass: 'active'
     },
-    components: [
-        './src/components' //default level = 0
-    ],
     css: [
         './src/assets/styles/_normalize.scss',
         './src/assets/styles/_variables.scss',
