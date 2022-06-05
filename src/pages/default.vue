@@ -65,6 +65,7 @@
 
 <script>
     import backgroundImage from '../assets/img/khoisan-artist.jpg'
+    import Nav from '../components/Nav'
     import iconscripts from '../utils/icons'
 
     const formatString = 'data:image/svg+xml;utf8, ',
@@ -78,6 +79,9 @@
                 cardanoIcon: null,
                 publicGoodsIcon: null
             }
+        },
+        components: {
+            Nav
         },
         mounted() {
             const ctx = this.$refs['canvas'].getContext('2d')

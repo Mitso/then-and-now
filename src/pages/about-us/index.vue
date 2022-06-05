@@ -11,6 +11,7 @@
 </template>
 
 <script>
+    import Nav from '../../components/Nav'
     export default {
         name: 'AboutUs'
     }
@@ -18,8 +19,6 @@
 
 <style lang="scss">
     @import '../../assets/styles/variables';
-
-
 
     .heading--primary {
         font-family: 'Prompt', sans-serif;

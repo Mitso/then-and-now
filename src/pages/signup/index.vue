@@ -62,6 +62,7 @@
 </template>
 
 <script>
+    import Nav from '../../components/Nav'
     import axios from 'axios'
     export default {
         name: 'Signup',
@@ -72,6 +73,9 @@
                 email: '',
                 phone: ''
             }
+        },
+        components: {
+            Nav
         },
         mounted() {
             this.$refs['subscribe'].style.height = window.innerHeight + 'px'
