@@ -78,7 +78,7 @@
         },
         methods: {
             onSubmit () {
-                axios.post('http://localhost:8000/user', {
+                axios.post('/user', {
                     name: this.name,
                     surname: this.surname,
                     email: this.email,
