@@ -36,7 +36,7 @@
                 </div>
             </div>
             <div class="cta">
-                <NuxtLink to="/signup" class="button button--primary">Sign up</NuxtLink>
+                <NuxtLink to="/signup" class="button button--primary">Subscribe</NuxtLink>
             </div>
         </section>
 
@@ -118,7 +118,11 @@
 
 
 <style lang="scss">
-    @import '../assets/styles/variables';
+    //Brand Colors
+    $black                      :           #000000;
+    $soft-yellow                :           #e9d257;
+    $orange                     :           #e9a100;
+    $white                      :           #ffffff;
     .logo {
         font-family: 'Prompt', sans-serif;
         color: $orange;

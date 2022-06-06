@@ -21,7 +21,11 @@
 </script>
 
 <style lang="scss">
-    @import '../../assets/styles/variables';
+    //Brand Colors
+    $black                      :           #000000;
+    $soft-yellow                :           #e9d257;
+    $orange                     :           #e9a100;
+    $white                      :           #ffffff;
 
     .heading--primary {
         font-family: 'Prompt', sans-serif;

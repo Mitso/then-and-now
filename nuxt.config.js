@@ -4,14 +4,14 @@ export default {
         linkActiveClass: 'active'
     },
     css: [
-        './src/assets/styles/_normalize.scss',
-        './src/assets/styles/_variables.scss',
-        './src/assets/styles/default.scss'
+        './assets/styles/_normalize.scss',
+        './assets/styles/_variables.scss',
+        './assets/styles/default.scss'
     ],
     buildModules: [ //Add @nuxtjs/router to the buildModules section
         ['@nuxtjs/router', {
             /* MODULE OPTIONS */
-            path: './src/router',
+            path: './router',
             fileName: 'router.js'
         }]
     ],
