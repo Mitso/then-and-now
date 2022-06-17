@@ -1,62 +1,36 @@
-import App from './App.vue'
-import routes from './routes'
-import viteSSR, { ClientOnly } from 'vite-ssr'
-import { createHead } from '@vueuse/head'
+/* 
+  Vue SSR
+*/
 
-export default viteSSR(
-  App,
-  { routes },
-  ({ app, router, isClient, url, initialState, initialRoute, request }) => {
-    const head = createHead()
-    app.use(head)
+import { createdApp } from './app'
 
-    app.component(ClientOnly.name, ClientOnly)
+export default context =>
+  new Promise((resolve, reject) => {  // eslint-disable-line
+    const { app, router } = createdApp();
+    const meta = app.$meta();
 
-    // Before each route navigation we request the data needed for showing the page.
-    router.beforeEach(async (to, from, next) => {
-      if (!!to.meta.state && Object.keys(to.meta.state).length > 0) {
-        // This route has state already (from server) so it can be reused.
-        // State is always empty in SPA development, but present in SSR development.
-        return next()
+    // set server-side router's location
+    router.push(context.url);
+    context.meta = meta;
+
+    // wait until router has resolved possible async components and hooks
+    router.onReady(() => {
+      context.rendered = () => {
+        // After the app is rendered, our store is now
+        // filled with the state from our components.
+        // When we attach the state to the context, and the `template` option
+        // is used for the renderer, the state will automatically be
+        // serialized and injected into the HTML as `window.__INITIAL_STATE__`.
+        //context.state = store.state;
+      };
+
+      const matchedComponents = router.getMatchedComponents();
+      // no matched routes, reject with 404
+      if (!matchedComponents.length) {
+        return reject(new Error(404));
       }
 
-      // `isClient` here is a handy way to determine if it's SSR or not.
-      // However, it is a runtime variable so it won't be tree-shaked.
-      // Use Vite's `import.meta.env.SSR` instead for tree-shaking.
-      const baseUrl = isClient ? '' : url.origin
-
-      // Explanation:
-      // The first rendering happens in the server. Therefore, when this code runs,
-      // the server makes a request to itself (running the code below) in order to
-      // get the current page props and use that response to render the HTML.
-      // The browser shows this HTML and rehydrates the application, turning it into
-      // a normal SPA. After that, subsequent route navigation runs this code below
-      // from the browser and get the new page props, which is this time rendered
-      // directly in the browser, as opposed to the first page rendering.
-
-      try {
-        // Get our page props from our custom API:
-        const res = await fetch(
-          `${baseUrl}/api/getProps?path=${encodeURIComponent(to.path)}&name=${
-            to.name
-          }&client=${isClient}`,
-          {
-            method: 'GET',
-            headers: {
-              'Content-Type': 'application/json',
-            },
-          }
-        )
-
-        to.meta.state = await res.json()
-      } catch (error) {
-        console.error(error)
-        // redirect to error route
-      }
-
-      next()
-    })
-
-    return { head }
-  }
-)
+      // the Promise should resolve to the app instance so it can be rendered
+      return resolve(app);
+    }, reject);
+  });

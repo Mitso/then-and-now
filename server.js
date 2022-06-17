@@ -1,81 +1,54 @@
-const createError = require('http-errors')
-const fs = require('fs')
-const path = require('path')
-const express = require('express')
-const cookieParser = require('cookie-parser')
-const logger = require('morgan')
-const router = express.Router()
-
-const { createServer: createViteServer } = require('vite')
-
-const indexRouter = require('./routes/index')
-const usersRouter = require('./routes/users')
-
-async function createServer() {
-  const server = express()
-
-  // EXPRESS: VIEW TEMPLATE ENGINE
-  server.set('views', path.join(__dirname, 'src/templates'))
-  server.set('view engine', 'pug')
-
-  server.use(logger('dev'))
-  server.use(express.json())
-  server.use(express.urlencoded({ extended: false }))
-  server.use(cookieParser())
-
-  //SERVE STATIC FILES
-  server.use(express.static(path.join(__dirname, 'public')))
-  server.use(express.static(path.join(__dirname, 'src')))
-  server.use(express.static(path.join(__dirname, '')))
-
-
-  // EXPRESS: PAGE ROUTES 
-  const vite = await createViteServer({
-    server: { middlewareMode: 'ssr' }
-  })
-  // use vite's connect instance as middleware
-  server.use(vite.middlewares)
-
-  server.use('/', async (req, res, next) => {
-    const url = req.originalUrl
-    try {
-      // 1. Read index.html
-      //res.sendFile(path + "index.html");
-
-      let template = fs.readFileSync(
-        path.resolve(__dirname, 'index.html'),
-        'utf-8'
-      )
-      template = await vite.transformIndexHtml(url, template)
+const path = require('path'),
+  fs = require('fs'),
+  express = require('express'),
+  { createBundleRenderer } = require('vue-server-renderer')
   
-    // 3. Load the server entry. vite.ssrLoadModule automatically transforms
-        //    your ESM source code to be usable in Node.js! There is no bundling
-        //    required, and provides efficient invalidation similar to HMR.
-        const { render } = await vite.ssrLoadModule('/src/entry-server.js')
-  
-        // 4. render the app HTML. This assumes entry-server.js's exported `render`
-        //    function calls appropriate framework SSR APIs,
-        //    e.g. ReactDOMServer.renderToString()
-        const appHtml = await render(url)
-  
-        // 5. Inject the app-rendered HTML into the template.
-        const html = template.replace(`<!--ssr-outlet-->`, appHtml)
-  
-        // 6. Send the rendered HTML back.
-        res.status(200).set({ 'Content-Type': 'text/html' }).end(html)
-      } catch (e) {
-        // If an error is caught, let Vite fix the stracktrace so it maps back to
-        // your actual source code.
-        vite.ssrFixStacktrace(e)
-        console.log('VITE ENDPOINT - ERROR RESPONSE')
-        next(e)
+//FILE PATHS
+const FILESYSTEM_PATH = __dirname,
+  BASEDIR = (name) => path.join(FILESYSTEM_PATH, name)
+
+//WEBPACK + VUE SSR
+const template = fs.readFileSync(
+  BASEDIR('src/index.html'),
+  'utf-8',
+),
+serverBundle = require('./dist/vue-ssr-server-bundle.json'),
+clientManifest = require('./dist/vue-ssr-client-manifest.json')
+
+
+const app = express()
+
+const renderer = createBundleRenderer(serverBundle, {
+  runInNewContext: false,
+  template,
+  clientManifest,
+  inject: false,
+})
+
+app.use(express.static(BASEDIR('static')))
+app.use('/dist', express.static(BASEDIR('dist')))
+
+app.get('*', function(req, res, next) {
+  const context = { url: req.url }
+
+  renderer.renderToString(context, (err, html) => {
+    if (err) {
+      if (+err.message === 404) {
+        res.status(404).end('Page not found');
+      } else {
+        console.log(err);
+        res.status(500).end('Internal Server Error');
       }
+    }
+
+    res.end(html)
   })
-  //server.use('/', indexRouter)
-  server.use('/users', usersRouter)
-  server.listen(3000)
-}
+})
 
-createServer()
+const port = 3000
+app.listen(port, () => {
+  console.log(`Started express server at https://localhost:${port}`)
+})
 
 
+ 
