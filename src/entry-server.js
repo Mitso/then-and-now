@@ -2,7 +2,7 @@
   Vue SSR
 */
 
-import { createdApp } from './app'
+import { createdApp } from './'
 
 export default context =>
   new Promise((resolve, reject) => {  // eslint-disable-line

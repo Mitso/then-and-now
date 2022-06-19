@@ -2,7 +2,7 @@
     Vue entry app + Hot module reload 
 */
 
-import { createdApp } from './index'
+import { createdApp } from './'
 
 const { app, router } = createdApp()
 

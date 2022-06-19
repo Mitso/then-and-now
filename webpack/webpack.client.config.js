@@ -1,38 +1,57 @@
 const path = require('path'),
+    webpack = require('webpack'),
     { merge } = require('webpack-merge'),
-    webpack = require('webpack'), 
+    MiniCssExtractPlugin = require('mini-css-extract-plugin'),
+    { VueSSRClientPlugin } = require('./lib/client.plugin'),
     common = require('./common.js')
+   
+const IS_PRODUCTION = process.env.NODE_ENV === 'production'
 
-    VueSSRClientPlugin = require('vue-server-renderer/client-plugin'),
-    MiniCssExtractPlugin = require('mini-css-extract-plugin')
-
-const isProduction = process.env.NODE_ENV === 'production'
 let config = {
     entry: {
-        main: path.join(__dirname, 'src/entry-client.js')
-    }
+        main: [
+            'webpack-hot-middleware/client',
+            path.join(__dirname, 'src/entry-client.js')
+        ]
+    },
+    optimization: {
+        splitChunks: {
+            cacheGroups: {
+                vendor: {
+                    test: /[\\/]node_modules[\\/]/,
+                    name: 'vendors',
+                    chunks: 'all',
+                }
+            }
+        }
+    },
+    plugins: [
+        new MiniCssExtractPlugin()
+    ]
 }
 
-if (!isProduction) {
+if (!IS_PRODUCTION) {
     config = merge(common, {
         mode: 'development',
+        
         output: {
-            path: path.resolve(__dirname, 'dev'),
+            path: path.resolve(__dirname, './dev'),
             filename: '[name].bundle.js'
         },
 
         devtool: 'source-map',
-
         module: {
             rules: [
                 {
                     test: /\.css$/,
                     use: [
-                        'vue-style-loader'
+                        'vue-style-loader',
+                        'css-loader'
                     ]
                 }
             ]
         },
+
         plugins: [
             new VueSSRClientPlugin(),
             new webpack.HotModuleReplacementPlugin(),
@@ -48,13 +67,13 @@ if (!isProduction) {
             path: path.resolve(__dirname, 'dist'),
             filename: '[name].[contenthash].js',
         },
-
         module: {
             rules: [
                 {
                     test: /\.css$/,
                     use: [
-                        MiniCssExtractPlugin.loader
+                        MiniCssExtractPlugin.loader,
+                        'css-loader'
                     ]
                 }
             ]
@@ -63,9 +82,6 @@ if (!isProduction) {
         plugins: [
             new webpack.DefinePlugin({
                 'process.env.NODE_ENV': JSON.stringify('production'),
-            }),
-            new MiniCssExtractPlugin({
-                filename: '[name].[hash:8].css',
             })
         ]
     })

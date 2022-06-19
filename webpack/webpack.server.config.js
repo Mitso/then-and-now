@@ -1,8 +1,10 @@
 const { merge } = require('webpack-merge'),
     nodeExternals = require('webpack-node-externals'),
-    VueSSRServerPlugin = require('vue-server-renderer/server-plugin')
+    { VueSSRServerPlugin } = require('./lib/server.plugin'),
+    common = require('./common.js')
 
-const isProduction = process.env.NODE_ENV === 'production'
+const IS_PRODUCTION = process.env.NODE_ENV === 'production'
+
 let config = {
     entry: {
         main: path.join(__dirname, 'src/entry-server.js')
@@ -15,7 +17,7 @@ let config = {
     ]
 }
 
-if (!isProduction) {
+if (!IS_PRODUCTION) {
     config = merge(common, {
         mode: 'development',
        

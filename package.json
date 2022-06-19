@@ -1,38 +1,55 @@
 {
-  "name": "thennow",
+  "name": "then-and-now",
   "version": "1.0.0",
-  "private": true,
+  "description": "Then and now",
+  "main": "server.js",
   "scripts": {
-    "start": "node ./server.js",
-    "dev": "rimraf dist && webpack --mode development"
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "dev": "npx webpack --config ./webpack/webpack.client.config --mode development",
+    "build": "rm -rf dist && --config ./webpack/webpack.client.config --mode production",
+    "start": "node server.js"
   },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Mitso/then-and-now.git"
+  },
+  "author": "Mitso Qalaba",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/Mitso/then-and-now/issues"
+  },
+  "homepage": "https://github.com/Mitso/then-and-now#readme",
   "devDependencies": {
-    "@babel/core": "^7.18.5",
     "@babel/preset-env": "^7.18.2",
+    "@vue/runtime-dom": "^3.2.37",
     "babel-loader": "^8.2.5",
     "css-loader": "^6.7.1",
-    "express": "^4.18.1",
-    "file-loader": "^6.2.0",
     "fs": "^0.0.1-security",
-    "html-webpack-plugin": "^5.5.0",
-    "node-sass": "^7.0.1",
-    "rimraf": "^3.0.2",
-    "sass-loader": "^13.0.0",
-    "style-loader": "^3.3.1",
-    "vue": "^3.2.37",
-    "vue-loader": "^17.0.0",
+    "hash-sum": "^2.0.0",
+    "html-loader": "^3.1.2",
+    "html-webpack-plugin": "^5.1.0",
+    "lodash.uniq": "^4.5.0",
+    "mini-css-extract-plugin": "^2.5.3",
+    "path": "^0.12.7",
+    "postcss": "^8.2.6",
+    "postcss-loader": "^6.1.1",
+    "url-loader": "^4.1.1",
+    "vue-bundle-renderer": "^0.3.9",
+    "vue-loader": "^15.9.3",
+    "vue-meta": "^2.4.0",
+    "vue-router": "^3.5.4",
     "vue-style-loader": "^4.1.3",
     "vue-template-compiler": "^2.6.14",
-    "webpack": "^5.73.0",
+    "webpack": "^5.54.0",
+    "webpack-cli": "^4.10.0",
     "webpack-dev-middleware": "^5.3.3",
     "webpack-hot-middleware": "^2.25.1",
-    "webpack-merge": "^5.8.0",
+    "webpack-merge": "^5.7.3",
     "webpack-node-externals": "^3.0.0"
   },
   "dependencies": {
-    "path": "^0.12.7",
-    "url-loader": "^4.1.1",
-    "vue-meta": "^2.4.0",
-    "vue-router": "^4.0.16"
+    "dotenv": "^16.0.1",
+    "express": "^4.18.1",
+    "vue": "^2.6.14"
   }
 }
