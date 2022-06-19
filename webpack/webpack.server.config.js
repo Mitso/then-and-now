@@ -25,9 +25,5 @@ if (!IS_PRODUCTION) {
             new webpack.HotModuleReplacementPlugin()
         ]
     })
-} else {
-    config = merge(common, {
-        mode: 'production',
-    })
-}
+} 
 module.exports =  config

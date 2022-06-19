@@ -5,7 +5,7 @@ const path = require('path'),
     { VueSSRClientPlugin } = require('./lib/client.plugin'),
     common = require('./common.js')
    
-const IS_PRODUCTION = process.env.NODE_ENV === 'production'
+const IS_PRODUCTION = process.env.NODE_ENV === 'development'
 
 let config = {
     entry: {
@@ -13,6 +13,9 @@ let config = {
             'webpack-hot-middleware/client',
             path.join(__dirname, 'src/entry-client.js')
         ]
+    },
+    output: {
+        path: path.resolve(__dirname, '../dist')
     },
     optimization: {
         splitChunks: {
@@ -35,7 +38,6 @@ if (!IS_PRODUCTION) {
         mode: 'development',
         
         output: {
-            path: path.resolve(__dirname, './dev'),
             filename: '[name].bundle.js'
         },
 
@@ -64,7 +66,6 @@ if (!IS_PRODUCTION) {
     config = merge(common, {
         mode: 'production',
         output: {
-            path: path.resolve(__dirname, 'dist'),
             filename: '[name].[contenthash].js',
         },
         module: {

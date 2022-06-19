@@ -1,15 +1,16 @@
-import Vue from 'vue'
-import Router from 'vue-router'
+import { createApp } from 'vue'
+import VueRouter from 'vue-router'
 import VueMeta from 'vue-meta'
 
-import Home from ('../pages/Home.vue') 
+import Home from '../pages/Home.vue'
+//const Home = { template: '<div>Home</div>' }
 
-Vue.use(Router)
+Vue.use(VueRouter)
 Vue.use(VueMeta)
 
 
 export function createRouter() {
-  return new Router({
+  return new VueRouter({
     mode: 'history',
     routes: [
         { 
